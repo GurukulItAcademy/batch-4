@@ -1,8 +1,6 @@
 package com.nextalien.accounts.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,11 +11,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Accounts extends BaseEntity{
+public class Customer extends BaseEntity{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "customer_id")
     private Long customerId;
-    @Id
-    private Long accountNumber;
-    private String accountType;
-    private String branchAddress;
+    private String name;
+    private String email;
+    private String mobileNumber;
 }
