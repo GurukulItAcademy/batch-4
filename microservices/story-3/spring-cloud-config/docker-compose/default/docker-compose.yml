@@ -53,7 +53,7 @@ services:
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
-      SPRING_PROFILES_ACTIVE: qa
+      SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configServer:8071/
       SPRING_APPLICATION_NAME: "accounts"
 
@@ -73,7 +73,7 @@ services:
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
-      SPRING_PROFILES_ACTIVE: qa
+      SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configServer:8071/
       SPRING_APPLICATION_NAME: "loans"
 
@@ -93,7 +93,7 @@ services:
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: "rabbit"
-      SPRING_PROFILES_ACTIVE: qa
+      SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configServer:8071/
       SPRING_APPLICATION_NAME: "cards"
 
