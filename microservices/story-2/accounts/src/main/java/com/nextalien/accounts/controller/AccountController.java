@@ -1,5 +1,6 @@
 package com.nextalien.accounts.controller;
 
+import com.nextalien.accounts.dto.AccountContactInfoDto;
 import com.nextalien.accounts.dto.CustomerDto;
 import com.nextalien.accounts.dto.ErrorResponseDto;
 import com.nextalien.accounts.dto.ResponseDto;
@@ -12,8 +13,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -21,17 +23,31 @@ import org.springframework.web.bind.annotation.*;
 
 import static com.nextalien.accounts.constants.AccountConstants.*;
 
-@RestController
-@RequestMapping(path = "/api")
-@Validated
 @Tag(
         name = "CRUD REST APIs for Account in EazyBank",
         description = "CRUD REST APIs in EazyBank to CREATE, UPDATE, FETCH AND DELETE account details"
 )
+@RestController
+@RequestMapping(path = "/api")
+@Validated
 public class AccountController {
 
+    @Value("${build.version}")
+    private String buildVersion;
+
     @Autowired
-    IAccountService iAccountService;
+    Environment environment;
+
+    @Autowired
+    private AccountContactInfoDto accountDetails;
+
+    private final IAccountService iAccountService;
+
+
+    public AccountController(IAccountService iAccountService) {
+        this.iAccountService = iAccountService;
+    }
+
 
     @Operation(
             summary = "Create Account REST API",
@@ -95,6 +111,22 @@ public class AccountController {
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(STATUS_417, "Failed to delete account: looks like mobile number is null | empty"));
         }
+    }
+
+    @GetMapping("/build-version")
+    public ResponseEntity<String> fetchBuildVersion() {
+        return ResponseEntity.status(HttpStatus.OK).body(buildVersion);
+    }
+
+    @GetMapping("/java-home")
+    public ResponseEntity<String> fetchJavaVersion() {
+        String javaHome = environment.getProperty("My_Env_Var");
+        return ResponseEntity.status(HttpStatus.OK).body(javaHome);
+    }
+
+    @GetMapping("/account-details")
+    public ResponseEntity<AccountContactInfoDto> fetchAccountDetails() {
+        return ResponseEntity.status(HttpStatus.OK).body(accountDetails);
     }
 
 }
